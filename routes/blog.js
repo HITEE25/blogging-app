@@ -21,11 +21,29 @@ const upload = multer({ storage: storage })
 
 const router = Router();
 
+router.get("/addBlog", (req,res) => {
+    return res.render("addBlog",{
+        user: req.user,
+    });
+});
+
 router.get("/add-blog", (req,res) => {
     return res.render("addBlog",{
         user: req.user,
     });
 });
+
+//we have to upload single image
+router.post("/",upload.single("coverImageUrl"),async(req,res) => {
+  const {title,content} = req.body;
+  const blog = await Blog.create({
+    title,
+    content,
+    createdBy: req.user._id,
+    coverImageUrl: `/uploads/${req.file.filename}`,
+  })
+  return res.redirect(`/blog/${blog._id}`);
+})
 
 router.get("/:id",async(req,res) => {
   const blog = await Blog.findById(req.params.id).populate("createdBy");
@@ -46,16 +64,5 @@ router.post("/comment/:blogId",async(req,res) => {
   return res.redirect(`/blog/${req.params.blogId}`);
 })
 
-//we have to upload single image
-router.post("/",upload.single("coverImageUrl"),async(req,res) => {
-  const {title,content} = req.body;
-  const blog = await Blog.create({
-    title,
-    content,
-    createdBy: req.user._id,
-    coverImageUrl: `/uploads/${req.file.filename}`,
-  })
-  return res.redirect(`/blog/${blog._id}`);
-})
 
 module.exports = router;
