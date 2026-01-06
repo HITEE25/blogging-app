@@ -27,6 +27,7 @@ app.set("views",path.resolve("./views"));
 
 app.use(express.urlencoded({extended:false}));//to handle form data
 app.use(cookieParser());
+app.use("/user",userRoute);
 app.use(checkForAuthenticationCookie("token"));
 app.use((req, res, next) => {
   res.locals.user = req.user;
@@ -42,8 +43,6 @@ app.get("/",async(req,res) => {
         blogs:allBlogs,
     });
 })
-
-app.use("/user",userRoute);
 app.use("/blog",blogRoute);
 
 app.listen(PORT,() => {
