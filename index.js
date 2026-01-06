@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 
 const path = require("path");
 
@@ -16,7 +16,7 @@ const blogRoute = require("./routes/blog");
 mongoose.set('strictQuery', false);
 
 mongoose
-    .connect("mongodb://127.0.0.1:27017/blog")
+    .connect(process.env.MONGO_URL)
     .then((e) => console.log("mogoDB connected"));
 
 app.set("view engine","ejs");
