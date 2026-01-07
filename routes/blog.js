@@ -8,7 +8,7 @@ const Blog = require("../models/blog");
 const Comment = require("../models/comment");
 
 //disk storage
-/*const storage = multer.diskStorage({
+const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.resolve('./public/uploads'));
   },
@@ -16,7 +16,7 @@ const Comment = require("../models/comment");
     const filename = `${Date.now()}-${file.originalname}`;
     cb(null, filename)
   }
-})*/
+})
 
 const upload = multer({ storage: storage })
 
