@@ -1,3 +1,4 @@
+const cloudinary = require("../utils/cloudinary");
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
@@ -14,6 +15,10 @@ const {checkForAuthenticationCookie} = require("./middleware/authentication");
 const Blog = require("./models/blog");
 
 const blogRoute = require("./routes/blog");
+//use cloudinary
+const result = await cloudinary.uploader.upload(req.file.path, {
+  folder: "blogs",
+});
 mongoose.set('strictQuery', false);
 
 mongoose
